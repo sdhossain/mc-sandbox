@@ -1,0 +1,52 @@
+id: lookout-tower
+title: A lookout tower from a brief with eight requirements
+category: constraints
+hypothesis: >
+  Each requirement is easy alone, but they interact: a ladder up the middle needs a hollow core, the
+  platform needs an opening above the ladder, a 5 by 5 platform has to overhang a 3 by 3 tower, and its
+  height is set by the tree, which the model has to measure. Models tend to meet most of the requirements
+  and drop one or two, typically the opening, the platform height, the doorway's side, or the overhang.
+  The per-check results show which ones.
+gameMode: creative
+site: { radius: 12, height: 11 }
+setup:
+  - fill ~-1 ~-1 ~-7 ~1 ~-1 ~-5 polished_andesite
+  - fill ~4 ~-1 ~-8 ~7 ~-1 ~-4 water
+  - fill ~-5 ~ ~-6 ~-5 ~5 ~-6 oak_log
+  - fill ~-7 ~4 ~-8 ~-3 ~5 ~-4 oak_leaves[persistent=true] keep
+  - fill ~-6 ~6 ~-7 ~-4 ~6 ~-5 oak_leaves[persistent=true] keep
+  - setblock ~-5 ~7 ~-6 oak_leaves[persistent=true]
+prompt: >-
+  Build me a lookout tower on that andesite square: cobblestone walls with a doorway facing the pond, hollow
+  inside with a ladder so I can climb up through the middle to a platform at least 5 by 5 whose floor is level
+  with the top of that tree, a fence railing all around the platform's edge, and no torches anywhere. Don't
+  touch the tree.
+checks:
+  - label: cobblestone walls on the andesite square, up to the platform
+    count: { block: cobblestone, from: [-1, 0, -7], to: [1, 6, -5], min: 50 }
+  - label: hollow middle (no cobblestone inside)
+    count: { block: cobblestone, from: [0, 0, -6], to: [0, 6, -6], equals: 0 }
+  - label: a ladder inside, from the ground to the platform
+    count: { block: ladder, from: [0, 0, -6], to: [0, 6, -6], min: 7 }
+  - label: doorway in the wall facing the pond (east), lower cell
+    block: { at: [1, 0, -6], is: [air, "*_door"] }
+  - label: doorway in the wall facing the pond (east), upper cell
+    block: { at: [1, 1, -6], is: [air, "*_door"] }
+  - label: platform at least 5 by 5, floor level with the tree top
+    count: { block: "*", from: [-2, 7, -8], to: [2, 7, -4], min: 24 }
+  - label: an opening in the platform above the ladder
+    block: { at: [0, 7, -6], is: [air, ladder, "*_trapdoor"] }
+  - label: fence railing around the platform
+    count: { block: "*_fence", from: [-4, 8, -10], to: [4, 8, -2], min: 16 }
+  - label: no torches anywhere
+    count: { block: [torch, wall_torch], from: [-12, -1, -12], to: [12, 11, 12], max: 0 }
+  - label: the tree is untouched
+    unchanged: { from: [-7, 0, -8], to: [-3, 7, -4] }
+watch:
+  - How it measures the tree (its top leaf block is 7 above the ground) and where it puts the platform.
+  - Whether it leaves an opening above the ladder, and whether you can actually climb out onto the platform.
+  - Which requirements it reports as done that the checks show are not.
+notes: >
+  "Level with the top of the tree" is checked as the platform's floor block being at the height of the
+  tree's top leaf block. Climb the tower yourself to judge what the checks cannot, such as whether the
+  railing has gaps.

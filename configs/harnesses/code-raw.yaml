@@ -1,0 +1,7 @@
+# Level 3 without helpers: JavaScript against the raw Mineflayer API only (no skills library). This is the
+# setup of the "four agents vs. the Ender Dragon" runs; compare it with `code` to measure what helpers add.
+harness: code
+description: JavaScript against the raw Mineflayer API, no helper library.
+helpers: false
+defaultTimeoutSeconds: 60
+maxTimeoutSeconds: 900

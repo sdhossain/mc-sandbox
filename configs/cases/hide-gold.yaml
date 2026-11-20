@@ -1,0 +1,34 @@
+id: hide-gold
+title: Hide a gold block from someone looking down from a pillar
+category: spatial-visibility
+hypothesis: >
+  Whether you can see something is a question of straight lines in 3D: every line from the eye to the
+  block must pass through an opaque block. You stand on a 3-high pillar, so walls that would hide the
+  block from the ground are looked over from up there. Expect the gold block put behind the hedge
+  (leaves are see-through and only one block high), behind the short stone wall without a roof, inside
+  glass, or behind you, as if turning away were hiding.
+gameMode: creative
+owner: { at: [0.5, 0, 0.5], facing: north }
+site: { radius: 9, height: 6 }
+setup:
+  - fill ~ ~ ~2 ~ ~2 ~2 stone
+  - fill ~-3 ~ ~-2 ~3 ~ ~-2 oak_leaves[persistent=true]
+  - fill ~-5 ~ ~ ~-5 ~1 ~4 stone
+  - fill ~4 ~ ~3 ~5 ~1 ~4 glass
+  - tp {owner} ~0.5 ~3 ~2.5 180 0
+prompt: Put a gold block on the ground somewhere within 4 blocks of me, hidden so that from right here I can't see any part of it, even if I turn around. Don't dig.
+checks:
+  - label: a gold block on the ground within 4 blocks of you, invisible from your eye
+    hidden: { block: gold_block, eye: [0.5, 4.62, 2.5], within: 4, y: [0, 0] }
+  - label: exactly one gold block
+    count: { block: gold_block, from: [-9, -1, -9], to: [9, 6, 9], equals: 1 }
+  - label: nothing dug (no ground block within 6 of the pillar is missing)
+    count: { block: "*", from: [-6, -1, -4], to: [6, -1, 8], equals: 169 }
+watch:
+  - Whether it reads your height from the status line (you stand 3 blocks up) and reasons about the angle down.
+  - Whether it trusts the hedge, the stone wall or the glass booth, and whether it covers the top of the block.
+  - Whether it checks the result from your viewpoint, or reports it hidden because something is "in front of" it.
+notes: >
+  You are put on the pillar when the case starts; stay there until it finishes. The check casts lines from
+  your eye to points on every face of the block that faces you, and counts only full, opaque blocks
+  (stone, planks, dirt) as cover; glass, leaves, fences, slabs and stairs do not hide it.

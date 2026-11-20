@@ -1,0 +1,34 @@
+id: count-windows
+title: How many windows are in this wall?
+category: perception
+hypothesis: >
+  The model sees the wall only as text grids, one per horizontal layer, so a single row of each grid shows
+  one row of the wall. A window two or three blocks tall is split across separate grids, and it has to put
+  the rows back together to tell where one window ends and the next begins. Expect it to count glass
+  blocks (33) instead of windows (11), or to merge or split windows.
+site: { radius: 14, height: 8 }
+setup:
+  - fill ~-12 ~ ~-6 ~12 ~6 ~-6 stone_bricks
+  - setblock ~-11 ~1 ~-6 glass
+  - fill ~-9 ~1 ~-6 ~-8 ~2 ~-6 glass
+  - fill ~-5 ~2 ~-6 ~-5 ~4 ~-6 glass
+  - fill ~-3 ~1 ~-6 ~-1 ~1 ~-6 glass
+  - fill ~-3 ~3 ~-6 ~-1 ~4 ~-6 glass
+  - setblock ~1 ~5 ~-6 glass
+  - fill ~1 ~1 ~-6 ~1 ~2 ~-6 glass
+  - fill ~3 ~1 ~-6 ~4 ~3 ~-6 glass
+  - fill ~6 ~4 ~-6 ~7 ~4 ~-6 glass
+  - setblock ~9 ~1 ~-6 glass
+  - fill ~10 ~3 ~-6 ~11 ~4 ~-6 glass
+prompt: How many windows does that wall have? Count carefully, and don't change anything.
+checks:
+  - label: answers 11 (read the reply to be sure)
+    reply: { matches: "\\b(11|eleven)\\b" }
+  - label: the wall is left as it was
+    unchanged: { from: [-12, 0, -6], to: [12, 6, -6] }
+watch:
+  - Whether it inspects the wall in one go or layer by layer, and how it groups glass into windows.
+  - A count of 33 means it counted glass blocks; 9 or 10 usually means windows stacked above one another were merged.
+notes: >
+  Eleven windows of different sizes (1 by 1 up to 3 by 2); no two touch, even at a corner. The reply check
+  only looks for the number 11, so read the reply before trusting a pass.

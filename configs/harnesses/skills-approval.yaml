@@ -1,0 +1,6 @@
+# The skills harness, where survival item requests need the owner's approval: the bot asks with request_items,
+# you answer !approve or !deny <reason> in chat, and approved items go straight into its inventory.
+# In `skills` item requests are granted at once; in `skills-gather` there are none.
+harness: skills
+description: Skills harness where you approve each item request (!approve / !deny in chat).
+itemRequests: approval

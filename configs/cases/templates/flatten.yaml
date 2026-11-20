@@ -1,0 +1,34 @@
+# A failure case on generated ground. Made with: npm run lab -- cases new __ID__
+# The lab flattens a site around you, builds the scene with the setup commands, puts you and the bot in
+# place, and sends the prompt as if you had typed it. Every offset is relative to the anchor: the block you
+# stand in when the case starts (x east, y up, z south). Guide: docs/cases.md
+id: __ID__
+title: Copy a small stack of planks five blocks east
+# The kind of failure probed, for grouping (free text), for example coordinates or spatial-transformation.
+category: spatial-transformation
+hypothesis: >
+  What you expect models to get wrong, and why. Say what a failure would look like in the build or in the
+  trace, so that a reader can tell a real failure from noise.
+# The agent's game mode for the run: creative, survival or any.
+gameMode: creative
+# Replaced with grass on dirt before setup: 8 blocks around the anchor, 8 blocks of air above the ground.
+site: { radius: 8, height: 8 }
+# Where you and the bot are put, relative to the anchor. owner: null leaves you where you stand.
+owner: { at: [0.5, 0, 0.5], facing: north }
+bot: { at: [-2.5, 0, 3.5] }
+# Server commands that build the scene, without the slash. ~ is the anchor; {owner} and {bot} are names.
+setup:
+  - fill ~-2 ~ ~-4 ~-1 ~2 ~-3 oak_planks
+# The task, phrased the way a player would say it, without coordinates.
+prompt: >-
+  Build an exact copy of the stack of planks in front of me, five blocks to the east.
+# Evaluated after every turn; the case passes when all of them pass. Reference: docs/cases.md#checks
+checks:
+  - label: an exact copy five blocks east
+    copy: { from: [-2, 0, -4], to: [-1, 2, -3], offset: [5, 0, 0] }
+  - label: the original is untouched
+    unchanged: { from: [-2, 0, -4], to: [-1, 2, -3] }
+# What to look for in the transcript and on the dashboard, beyond what the checks score.
+watch:
+  - Whether it inspects the whole stack before building.
+notes: ""

@@ -1,0 +1,282 @@
+:root {
+  --bg: #f6f7f9;
+  --panel: #ffffff;
+  --text: #1d2330;
+  --muted: #667085;
+  --border: #e3e6ec;
+  --accent: #2f6fdb;
+  --ok: #1f8f4e;
+  --fail: #c0362c;
+  --code-bg: #f1f3f7;
+  --reasoning: #6b4fbb;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12151b;
+    --panel: #1a1f27;
+    --text: #e6e9ef;
+    --muted: #98a2b3;
+    --border: #2b323d;
+    --accent: #6ea0ff;
+    --ok: #4cc27f;
+    --fail: #ff7a6e;
+    --code-bg: #232a35;
+    --reasoning: #b9a3ff;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font:
+    14px/1.45 -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 16px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+
+h1 {
+  margin: 0;
+  font-size: 16px;
+}
+
+h2 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+nav {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+nav button {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  border-radius: 999px;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+
+nav button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.history {
+  margin-left: auto;
+  color: var(--muted);
+}
+
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+.pill {
+  border-radius: 999px;
+  padding: 2px 10px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.pill.live {
+  color: var(--ok);
+  border-color: var(--ok);
+}
+
+main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 16px;
+  padding: 16px;
+}
+
+@media (max-width: 900px) {
+  main {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+aside {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card,
+.turn {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  margin: 0;
+}
+
+dt {
+  color: var(--muted);
+}
+
+dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+#timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.turn h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.turn .meta,
+.muted {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.entry {
+  border-left: 3px solid var(--border);
+  padding: 4px 10px;
+  margin: 6px 0;
+}
+
+.entry.model {
+  border-color: var(--accent);
+}
+
+.entry.tool.ok {
+  border-color: var(--ok);
+}
+
+.entry.tool.fail {
+  border-color: var(--fail);
+}
+
+.entry.owner {
+  border-color: #d59b00;
+}
+
+.entry.end {
+  border-color: var(--muted);
+  font-weight: 600;
+}
+
+.reasoning {
+  color: var(--reasoning);
+  font-style: italic;
+  white-space: pre-wrap;
+}
+
+.say {
+  white-space: pre-wrap;
+}
+
+.tool-name {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 600;
+}
+
+.fail-text {
+  color: var(--fail);
+}
+
+pre {
+  margin: 6px 0 0;
+  padding: 8px 10px;
+  background: var(--code-bg);
+  border-radius: 6px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  font:
+    12px/1.4 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+}
+
+details > summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 8px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.buttons button {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 12px;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+.buttons button[data-command] {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.buttons button.danger {
+  color: var(--fail);
+  border-color: var(--fail);
+}
+
+#tools {
+  padding-left: 18px;
+  font-size: 12px;
+}

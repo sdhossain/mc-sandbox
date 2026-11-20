@@ -1,0 +1,37 @@
+# A failure case set in your own world. Made with: npm run lab -- cases new __ID__ --existing
+# Before every run the lab puts the reset box back to configs/cases/__ID__.baseline.json.gz, so each run
+# starts from the same blocks. Every offset is relative to the fixed anchor (x east, y up, z south).
+# Steps (guide: docs/cases.md):
+#   1. Build the scene on the lab's server, and stand next to it. F3 shows the block you stand in: that is
+#      the anchor. Size the reset box to hold the scene, the space the agent works in, and a margin.
+#   2. Save a checkpoint: !save in chat, or npm run lab -- checkpoint save <label>
+#   3. Record the start state: npm run lab -- cases baseline __ID__ --from <checkpoint id>
+#   4. Try it: !case __ID__ in chat. Then run trials: scripts/run-trials.sh __ID__ 5 <model>
+id: __ID__
+title: One line that says what the agent is asked to do
+# The kind of failure probed, for grouping (free text), for example coordinates or spatial-transformation.
+category: spatial-transformation
+hypothesis: >
+  What you expect models to get wrong, and why. Say what a failure would look like in the build or in the
+  trace, so that a reader can tell a real failure from noise.
+# The agent's game mode for the run: creative, survival or any.
+gameMode: survival
+# Use the world as it is: nothing is flattened, and only the reset box is put back.
+scene: existing
+# The world position every offset below is relative to.
+anchor: [0, 64, 0]
+# Put back to the recorded baseline before every run (anchor-relative corners).
+reset: { from: [-12, -4, -12], to: [12, 16, 12] }
+# owner: null leaves you where you stand; the bot starts here, relative to the anchor.
+owner: null
+bot: { at: [0.5, 0, 0.5] }
+# The task, phrased the way a player would say it, without coordinates.
+prompt: >-
+  Describe the task the way you would say it in chat.
+# Evaluated after every turn; the case passes when all of them pass. Reference: docs/cases.md#checks
+checks:
+  - label: the scene's structure is untouched
+    unchanged: { from: [-3, 0, -3], to: [3, 5, 3] }
+# What to look for in the transcript and on the dashboard, beyond what the checks score.
+watch: []
+notes: ""

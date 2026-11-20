@@ -1,0 +1,17 @@
+# Secrets: keep only the example
+.env
+.env.*
+!.env.example
+
+# Dependencies and runtime output
+node_modules/
+runs/
+checkpoints/
+server/
+coverage/
+
+# OS and editor files
+.DS_Store
+.idea/
+.vscode/
+*.log

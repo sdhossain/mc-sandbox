@@ -1,0 +1,4 @@
+# Level 2: the primitive tools plus skills that each carry out a sub-task (build from a block list, fill or clear
+# a box, gather a resource, craft with intermediate steps, prepare a farm plot).
+harness: skills
+description: Primitive tools plus multi-step skills; in survival, item requests are granted at once.

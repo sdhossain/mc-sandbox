@@ -1,0 +1,62 @@
+# Model presets. `id` is what lab.yaml and --model refer to; `model` is the name sent to the provider.
+# Prices are US dollars per million tokens, from https://developers.openai.com/api/docs/pricing as of 2026-11-19.
+# They are used only to report cost; check them against your bill.
+
+models:
+  - id: gpt-6.2-sol
+    provider: openai
+    model: gpt-6.2-sol
+    description: OpenAI's recommended default for agentic work (2026-11).
+    reasoningEffort: medium
+    pricing: { inputPerMTok: 2.00, cachedInputPerMTok: 0.10, cacheWritePerMTok: 2.50, outputPerMTok: 10.00 }
+
+  - id: gpt-6.2-astra
+    provider: openai
+    model: gpt-6.2-astra
+    description: OpenAI's most capable tier; about 4x the price of Sol.
+    reasoningEffort: medium
+    pricing: { inputPerMTok: 8.00, cachedInputPerMTok: 0.40, cacheWritePerMTok: 10.00, outputPerMTok: 40.00 }
+
+  - id: gpt-6.1-terra
+    provider: openai
+    model: gpt-6.1-terra
+    description: Mid-price GPT-6.1 model.
+    reasoningEffort: medium
+    pricing: { inputPerMTok: 1.00, cachedInputPerMTok: 0.05, cacheWritePerMTok: 1.25, outputPerMTok: 5.00 }
+
+  - id: gpt-6-luna
+    provider: openai
+    model: gpt-6-luna
+    description: Cheapest GPT-6 tier; good for trying the lab out.
+    reasoningEffort: low
+    pricing: { inputPerMTok: 0.10, cachedInputPerMTok: 0.01, cacheWritePerMTok: 0.125, outputPerMTok: 0.50 }
+
+  - id: gpt-5.5
+    provider: openai
+    model: gpt-5.5
+    description: Previous-generation flagship, for comparison.
+    reasoningEffort: medium
+    pricing: { inputPerMTok: 5.00, cachedInputPerMTok: 0.50, outputPerMTok: 30.00 }
+
+  - id: gpt-5.4-mini
+    provider: openai
+    model: gpt-5.4-mini
+    description: Small, fast previous-generation model.
+    reasoningEffort: low
+    pricing: { inputPerMTok: 0.75, cachedInputPerMTok: 0.075, outputPerMTok: 4.50 }
+
+  # A scripted stand-in that costs nothing: on every message it looks around, says hello and places one block
+  # in front of you. Use it to check the setup: npm start -- --model scripted-demo
+  - id: scripted-demo
+    provider: scripted
+    model: scripted
+    description: No API calls; replays a fixed script (setup check).
+    pricing: { inputPerMTok: 0, cachedInputPerMTok: 0, outputPerMTok: 0 }
+    script:
+      - text: "Looking around."
+        calls:
+          - { name: observe, arguments: {} }
+      - text: "Saying hello."
+        calls:
+          - { name: chat, arguments: { message: "Hello! I am a scripted test bot. The lab works." } }
+      - text: "Setup check finished: I can see the world and talk in chat."

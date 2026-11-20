@@ -1,0 +1,41 @@
+# The lab: which server the agents join, who may command them, and which agents to start.
+# Command-line flags override agent settings, e.g. `npm start -- --model gpt-6-luna --harness skills`.
+
+server:
+  host: 127.0.0.1
+  port: 25565
+  version: "1.21.11"
+  # The local server folder made by `npm run server:setup`. RCON settings are read from its server.properties.
+  directory: server
+
+# Your exact Minecraft name. Only owners can give agents tasks. MCLAB_OWNERS=<name> in .env (several: A,B)
+# replaces this list, which keeps your name out of git.
+owners: []
+
+# Every run (agent start until !reset or shutdown) gets a directory here.
+runsDir: runs
+
+# Complete copies of the server's world, saved while the lab runs (needs RCON). Unchanged files are shared
+# between checkpoints, so each one costs only the region files that changed. Open one in Minecraft with:
+#   npm run lab -- checkpoint open <id>
+checkpoints:
+  enabled: true
+  dir: checkpoints
+  everyMinutes: 10
+  atStart: true
+
+dashboard:
+  enabled: true
+  port: 8787
+
+agents:
+  - name: Sol
+    model: gpt-6-luna # a preset id from configs/models.yaml; gpt-6.1-terra or gpt-6.2-sol for harder builds
+    harness: primitive # a preset from configs/harnesses/
+    privileges:
+      gameMode: creative # creative: unlimited blocks, for build tasks; survival: gather everything
+    budget:
+      maxStepsPerTurn: 150
+      maxTurnMinutes: 30
+      maxTurnCostUsd: 3
+      maxRunCostUsd: 20

@@ -1,0 +1,42 @@
+id: mirror-shed
+title: Build the mirror image of a shed across a path
+category: spatial-transformation
+hypothesis: >
+  Mirroring needs every block's position reflected across the path and every east- or west-facing block
+  flipped, while north- or south-facing blocks stay as they are. The model sees the shed only as layered
+  text grids, so it has to read a 3D structure, apply the reflection to each block and rebuild it without
+  seeing the result. Expect a translated copy instead of a reflected one (the door ends up facing away
+  from the path), stairs flipped on the wrong axis, and missed roof or chimney details. A spelled-out
+  version (every target cell listed) should pass, which isolates the failure to spatial reasoning.
+gameMode: creative
+site: { radius: 12, height: 7 }
+setup:
+  - fill ~ ~-1 ~-12 ~ ~-1 ~2 dirt_path
+  - fill ~-8 ~ ~-9 ~-8 ~2 ~-9 spruce_planks
+  - fill ~-4 ~ ~-9 ~-4 ~2 ~-9 spruce_planks
+  - fill ~-8 ~ ~-5 ~-8 ~2 ~-5 spruce_planks
+  - fill ~-4 ~ ~-5 ~-4 ~2 ~-5 spruce_planks
+  - fill ~-7 ~ ~-9 ~-5 ~2 ~-9 oak_planks
+  - fill ~-7 ~ ~-5 ~-5 ~2 ~-5 oak_planks
+  - fill ~-8 ~ ~-8 ~-8 ~2 ~-6 oak_planks
+  - fill ~-4 ~ ~-8 ~-4 ~2 ~-6 oak_planks
+  - setblock ~-4 ~ ~-7 oak_door[facing=east,half=lower,hinge=left]
+  - setblock ~-4 ~1 ~-7 oak_door[facing=east,half=upper,hinge=left]
+  - setblock ~-8 ~1 ~-7 glass
+  - setblock ~-6 ~1 ~-9 glass
+  - fill ~-8 ~3 ~-9 ~-4 ~3 ~-5 oak_planks
+  - fill ~-7 ~4 ~-8 ~-7 ~5 ~-8 cobblestone
+  - setblock ~-3 ~ ~-7 oak_stairs[facing=west]
+  - setblock ~-6 ~ ~-4 oak_stairs[facing=north]
+prompt: See my shed? Build its mirror image on the other side of the path, as if the path were a mirror.
+checks:
+  - label: mirror image across the path (positions reflected, east and west flipped)
+    copy: { from: [-8, 0, -9], to: [-3, 5, -4], mirror: { axis: x, about: 0 } }
+watch:
+  - The door of the copy should be in its west wall, facing the path. On the east wall, facing away, means it translated instead of reflecting.
+  - The porch step in front of the copy's door should face east; the bench against the south wall should still face north.
+  - The chimney should sit one block in from the copy's east wall, on the north half of the roof.
+  - Whether it inspects the whole shed (all six layers) before building, and checks its copy afterwards.
+notes: >
+  The check compares every cell of the shed's box, air included, with the reflected cell; door hinges are
+  not compared. Try the same case on the code harness, where the model can compute the reflection.

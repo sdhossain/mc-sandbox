@@ -1,0 +1,6 @@
+# The skills harness with no item requests: in survival the bot must gather or craft every block and item it
+# uses (collect_blocks, craft_with_ingredients, smelt). Compare with `skills` (requests granted at once) and
+# `skills-approval` (requests need your !approve).
+harness: skills
+description: Skills harness where survival means gathering everything (no item requests).
+itemRequests: "off"

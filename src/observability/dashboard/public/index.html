@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Harness Lab</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Harness Lab</h1>
+      <nav id="agent-tabs" aria-label="Agents"></nav>
+      <label class="history">
+        Run
+        <select id="run-select">
+          <option value="">live</option>
+        </select>
+      </label>
+      <span id="connection" class="pill">connecting…</span>
+    </header>
+    <main>
+      <section id="timeline" aria-label="Timeline"></section>
+      <aside>
+        <section class="card">
+          <h2>Agent</h2>
+          <dl id="agent-info"></dl>
+        </section>
+        <section class="card">
+          <h2>Bot</h2>
+          <dl id="bot-status">
+            <dt>status</dt>
+            <dd>waiting for the bot…</dd>
+          </dl>
+        </section>
+        <section class="card">
+          <h2>Run totals</h2>
+          <dl id="totals"></dl>
+        </section>
+        <section class="card" id="controls">
+          <h2>Talk to the agent</h2>
+          <form id="message-form">
+            <textarea id="message" rows="3" placeholder="build a 5x5 oak hut next to me"></textarea>
+            <div class="buttons">
+              <button type="submit">Send</button>
+              <button type="button" data-command="stop" class="danger">Stop</button>
+              <button type="button" data-command="reset">Reset</button>
+              <button type="button" data-command="approve">Approve request</button>
+              <button type="button" data-command="deny">Deny request</button>
+            </div>
+          </form>
+          <p id="control-answer" class="muted"></p>
+        </section>
+        <section class="card">
+          <details>
+            <summary>System prompt and tools</summary>
+            <pre id="instructions"></pre>
+            <ul id="tools"></ul>
+          </details>
+        </section>
+      </aside>
+    </main>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

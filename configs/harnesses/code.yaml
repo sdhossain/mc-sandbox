@@ -1,0 +1,7 @@
+# Level 3: the model writes JavaScript against the live Mineflayer bot (full API), with the skill library as
+# `skills.*` functions.
+harness: code
+description: JavaScript against the live bot, with the skills library as helpers.
+helpers: true
+defaultTimeoutSeconds: 60
+maxTimeoutSeconds: 900

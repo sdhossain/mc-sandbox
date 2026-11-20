@@ -1,0 +1,50 @@
+{
+  "name": "mc-harness-lab",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Watch language models play Minecraft through harnesses of increasing power, on your own local server.",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "lab": "node src/cli/main.ts",
+    "start": "node src/cli/main.ts start",
+    "doctor": "node src/cli/main.ts doctor",
+    "server:setup": "node src/cli/main.ts server setup",
+    "server": "node src/cli/main.ts server start",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm test"
+  },
+  "dependencies": {
+    "acorn": "8.19.0",
+    "acorn-walk": "8.3.5",
+    "minecraft-data": "3.119.0",
+    "mineflayer": "4.39.0",
+    "mineflayer-pathfinder": "2.4.5",
+    "openai": "7.60.0",
+    "prismarine-item": "1.18.0",
+    "prismarine-nbt": "2.8.0",
+    "undici": "8.12.4",
+    "vec3": "0.2.0",
+    "yaml": "2.9.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.19.2",
+    "eslint": "10.15.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-jsdoc": "65.5.0",
+    "globals": "17.14.0",
+    "prettier": "3.10.1",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.73.0",
+    "vitest": "5.1.1"
+  }
+}

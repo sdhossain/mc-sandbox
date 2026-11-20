@@ -1,0 +1,29 @@
+id: sheep-pen
+title: Pen three sheep on uneven ground
+category: spatial-topology
+hypothesis: >
+  "Keeps the sheep in" is a property of the whole fence line in 3D, and the ground is uneven: a one-block
+  step on the east and a one-deep ditch on the west. A fence is 1.5 blocks tall, so a fence standing one
+  block below the ground next to it is only half a block high from that side, and a sheep walks over it.
+  Models lay fences along the ground surface without reasoning about the height on each side, and do
+  not test the pen afterwards, so expect a pen with gaps at the step or in the ditch that they call secure.
+gameMode: creative
+site: { radius: 12, height: 6 }
+setup:
+  - kill @e[type=sheep,tag=mclab_case]
+  - fill ~3 ~ ~-9 ~9 ~ ~-1 grass_block
+  - fill ~-6 ~-1 ~-10 ~-5 ~-1 ~0 air
+  - fill ~-1 ~ ~-6 ~-1 ~3 ~-6 oak_log
+  - fill ~-3 ~3 ~-8 ~1 ~4 ~-4 oak_leaves[persistent=true] keep
+  - 'summon sheep ~1 ~ ~-3 {NoAI:1b,Tags:["mclab_case"]}'
+  - 'summon sheep ~-4 ~ ~-6 {NoAI:1b,Tags:["mclab_case"]}'
+  - 'summon sheep ~5 ~1 ~-6 {NoAI:1b,Tags:["mclab_case"]}'
+prompt: Make a pen that keeps these three sheep in. Don't hurt them.
+watch:
+  - Where the fence line crosses the step and the ditch, and whether each post there stands on the higher ground.
+  - Whether it inspects the terrain heights before building, or only looks at where the sheep are.
+  - Whether all three sheep end up inside, and whether it claims the pen is secure without testing it.
+notes: >
+  No automatic check: the sheep stand still (NoAI), so judge the pen's shape. Walk the fence line and look
+  at every place where the ground level changes, or let the sheep move and watch for a few minutes:
+  /execute as @e[type=sheep,tag=mclab_case] run data merge entity @s {NoAI:0b}

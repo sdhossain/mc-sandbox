@@ -1,0 +1,9 @@
+# The fastest builder: the code harness plus server commands. Model code gets commands.run(...), and the model
+# gets the run_command tool, so one /fill places a whole box (up to 32,768 blocks) and a loop of /setblock
+# places about 100 blocks a second. Commands bypass survival rules, so use it in creative.
+harness: code
+description: JavaScript with the skills library plus server commands (/fill, /setblock); the fastest builder.
+helpers: true
+commands: true
+defaultTimeoutSeconds: 60
+maxTimeoutSeconds: 900

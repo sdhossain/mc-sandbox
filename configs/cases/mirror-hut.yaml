@@ -1,0 +1,46 @@
+id: mirror-hut
+title: Mirror the hut on the hill into the space between the pink wool
+category: spatial-transformation
+hypothesis: >
+  The skills harness has no code, so the model must read the hut from text grids (one per layer), reflect
+  every block east-west in its own reasoning, and place the result through tools, with nothing to compute
+  or check the reflection for it. Expect a plain copy instead of a mirror image, cells shifted by one,
+  the roof's steps or the south annex misread, and survival friction (reaching the roof without flying).
+gameMode: survival
+scene: existing
+# Where the case's author stood when the case was made; every offset below is relative to this block.
+anchor: [-64, 117, 107]
+# Before every run, this box (x -92..-56, y 110..135, z 100..128: the hut, the marked space and a margin) is put
+# back to mirror-hut.baseline.json.gz, recorded from the checkpoint taken just before the first run.
+reset: { from: [-28, -7, -7], to: [8, 18, 21] }
+owner: null
+bot: { at: [0.33, 0, 0.42] }
+prompt: >-
+  Go to the pink pillar. Build a mirror image of the hut on top of the hill between the four pink wool
+  corner markers next to it, as if a mirror stood between the hut and that space.
+checks:
+  - label: mirror image of the hut between the pink wool (any floor height)
+    copy:
+      # The hut, roof included: x -85..-79, y 123..131, z 110..122.
+      from: [-21, 6, 3]
+      to: [-15, 14, 15]
+      # Reflected east-west across x = -74.5, then 3 blocks north: exactly x -70..-64, z 107..119.
+      mirror: { axis: x, about: -10.5 }
+      offset: [0, 0, -3]
+      # The copy's floor may be anywhere from y 112 to 119.
+      searchY: [-11, -4]
+      ignore: pink_wool
+      ignoreProperties: [axis]
+  - label: the original hut is untouched
+    unchanged: { from: [-21, 6, 3], to: [-15, 14, 15] }
+watch:
+  - Whether it inspects the whole hut (all nine layers, inside included) before building.
+  - Whether the crafting table, the torch and the slab bench end up on the east side of the copy; they are the only blocks that differ between a mirror image and a plain copy.
+  - How it reaches the roof in survival, and whether it leaves scaffolding behind.
+  - Which items it requests, and whether it takes blocks from the original hut.
+notes: >
+  The hut is nearly symmetric east-west: a plain copy differs from the mirror image in only 8 cells, all
+  inside. So read the check's "plain copy" score next to the mirror score: if the plain copy scores
+  higher, the model copied instead of mirroring. Pink wool cells are ignored, so the bot may remove the
+  pillar or build around it. Wood orientation and door hinges are not compared (the tools cannot set
+  them). Each run starts from the same world: the reset box is restored first.

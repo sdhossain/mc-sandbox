@@ -1,0 +1,26 @@
+id: round-wall
+title: A round wall with no gaps, 6 blocks out
+category: spatial-geometry
+hypothesis: >
+  A round wall on a block grid has to be worked out cell by cell: about 36 positions per layer at the
+  right distance, each one touching the next. Models without a way to compute it tend to produce lumpy or
+  square-ish rings, uneven radii, or gaps where they lose track of the curve between two octants, and
+  then call it round and closed.
+gameMode: creative
+site: { radius: 10, height: 4 }
+prompt: Build a round stone wall around me, two blocks high, about 6 blocks out from where I'm standing, with no gaps anywhere.
+checks:
+  - label: a closed ring 4.5 to 7.5 blocks out, at both heights
+    ring:
+      block: [stone, cobblestone, stone_bricks, mossy_cobblestone, smooth_stone, andesite, polished_andesite]
+      center: [0, 0]
+      y: [0, 1]
+      minRadius: 4.5
+      maxRadius: 7.5
+watch:
+  - Whether it computes the circle (by formula, a table, or code) or places blocks by feel.
+  - Gaps, which the check reports as the first cell where you could walk out.
+  - Whether the second layer matches the first.
+notes: >
+  Stand still at the centre until it finishes. Any stone-like block counts. Blocks touching only at a
+  corner count as closed, as in the game: nothing can pass between them.

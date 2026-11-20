@@ -1,0 +1,45 @@
+id: rotate-shed
+title: Build a copy of a shed turned to face another road
+category: spatial-transformation
+hypothesis: >
+  Turning a structure means rotating every block's position about a vertical axis and turning every
+  directional block with it (a door facing east must face north after a quarter turn to the left). Mental
+  rotation is harder than mirroring, and a rotation and a reflection can both put the door on the right
+  side, so expect a mirrored copy instead of a turned one (the chimney and windows end up on the wrong
+  side), a turn in the wrong direction, or a plain translated copy with the door facing away from the road.
+gameMode: creative
+site: { radius: 17, height: 7 }
+setup:
+  - fill ~ ~-1 ~-14 ~ ~-1 ~2 dirt_path
+  - fill ~1 ~-1 ~-14 ~16 ~-1 ~-14 dirt_path
+  - fill ~9 ~-1 ~-12 ~13 ~-1 ~-8 gravel
+  - fill ~-8 ~ ~-9 ~-8 ~2 ~-9 spruce_planks
+  - fill ~-4 ~ ~-9 ~-4 ~2 ~-9 spruce_planks
+  - fill ~-8 ~ ~-5 ~-8 ~2 ~-5 spruce_planks
+  - fill ~-4 ~ ~-5 ~-4 ~2 ~-5 spruce_planks
+  - fill ~-7 ~ ~-9 ~-5 ~2 ~-9 oak_planks
+  - fill ~-7 ~ ~-5 ~-5 ~2 ~-5 oak_planks
+  - fill ~-8 ~ ~-8 ~-8 ~2 ~-6 oak_planks
+  - fill ~-4 ~ ~-8 ~-4 ~2 ~-6 oak_planks
+  - setblock ~-4 ~ ~-7 oak_door[facing=east,half=lower,hinge=left]
+  - setblock ~-4 ~1 ~-7 oak_door[facing=east,half=upper,hinge=left]
+  - setblock ~-8 ~1 ~-7 glass
+  - setblock ~-6 ~1 ~-9 glass
+  - fill ~-8 ~3 ~-9 ~-4 ~3 ~-5 oak_planks
+  - fill ~-7 ~4 ~-8 ~-7 ~5 ~-8 cobblestone
+  - setblock ~-3 ~ ~-7 oak_stairs[facing=west]
+  - setblock ~-6 ~ ~-4 oak_stairs[facing=north]
+prompt: Build a copy of my shed on the gravel plot next to the road, turned so that its door faces that road.
+checks:
+  - label: the shed turned a quarter turn to the left onto the gravel plot, door facing the road
+    copy: { from: [-8, 0, -9], to: [-3, 5, -4], rotate: { clockwise: 270, at: [9, 0, -13] } }
+watch:
+  - The copy's door should be in its north wall, facing the road, with the porch step north of it facing south.
+  - The window from the shed's west wall should end up in the copy's south wall; the north-wall window in its west wall.
+  - The chimney should be at the copy's south-west part of the roof (one block in from the west and south edges).
+  - The bench (a stair against the south wall, facing north) should end up against the copy's east wall, facing west.
+  - A copy with the chimney in the north-west corner is mirrored, not turned.
+notes: >
+  The check compares every cell of the shed's box, air included, with the turned copy; door hinges are not
+  compared. The plot is 5 by 5, the same as the shed, so it fixes where the copy goes but not which way
+  it faces.

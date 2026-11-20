@@ -1,0 +1,22 @@
+# Typecheck, lint, format check and unit tests on every push and pull request. The unit tests need no
+# Minecraft server and no API key; the integration tests (npm run test:integration) are run by hand.
+name: check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [24, 26]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run check
